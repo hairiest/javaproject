@@ -5,7 +5,7 @@ pipeline {
 
 		stage('Build') {
 			steps {
-			sh '/opt/antbin/ant -f build.xml -v' }
+			sh '/opt/ant/bin/ant -f build.xml -v' }
 		}
 }
 }
