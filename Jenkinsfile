@@ -16,14 +16,10 @@ pipeline {
 				label 'apache' }
 			steps {
 			sh '/opt/ant/bin/ant -f build.xml -v' }
-
 		 post {
-
                success {
                         archiveArtifacts artifacts: 'dist/*.jar' , fingerprint: true
-
  }
-
         }
 }
 
@@ -42,5 +38,14 @@ pipeline {
 			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
 				}
 }
+		stage('Test on Debian') {
+			
+			agent {
+				docker 'openjdk:8u151-jre'
+		}
+		steps {
+			sh "wget http://192.168.1.247/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar "
+			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+				}}
 }
 }
