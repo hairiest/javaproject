@@ -17,6 +17,16 @@ pipeline {
 			steps {
 			sh '/opt/ant/bin/ant -f build.xml -v' }
 		}
+
+		 post {
+
+               success {
+                        archiveArtifacts artifacts: 'dist/*.jar' , fingerprint: true
+
+ }
+
+        }
+
 		stage('Deploy') {
 			agent {
 				label 'apache' }
@@ -28,17 +38,9 @@ pipeline {
 			agent {
 				label 'centos' }
 			steps {
-			sh "wget http://5.80.210.207/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar "
+			sh "wget http://192.168.1.254/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar "
 			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
 				}
-	post {
-
-		always {
-			archiveArtifacts artifacts: 'dist/*.jar' , fingerprint: true
-
- }
-
-	}
 }
 }
 }
