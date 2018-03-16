@@ -10,13 +10,12 @@ pipeline {
 			steps {
 			sh 'ant -f test.xml -v'
 			junit 'reports/result.xml'
-}}
+}
 		stage('Build') {
 			agent {
 				label 'apache' }
 			steps {
 			sh '/opt/ant/bin/ant -f build.xml -v' }
-		}
 
 		 post {
 
@@ -26,6 +25,7 @@ pipeline {
  }
 
         }
+}
 
 		stage('Deploy') {
 			agent {
@@ -41,6 +41,7 @@ pipeline {
 			sh "wget http://192.168.1.254/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar "
 			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
 				}
+}
 }
 }
 }
