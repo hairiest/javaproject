@@ -84,6 +84,8 @@ pipeline {
 			sh "git merge development"
 			echo "Pushing to origin master"
 			sh "git push origin master"
+			echo "Tagging the release"
+			sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
 			
 
 }			
