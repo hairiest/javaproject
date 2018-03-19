@@ -29,15 +29,15 @@ pipeline {
 				label 'apache' }
 			steps {
 			sh "mkdir -p /var/www/html/rectangles/all/${env.BRANCH_NAME}"
-			sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}"
+			sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}"
 }
 }
 		stage('Running on Centos'){
 			agent {
 				label 'centos' }
 			steps {
-			sh "wget http://192.168.1.247/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar "
-			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+			sh "wget http://192.168.1.247/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar "
+			sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
 				}
 }
 		stage('Test on Debian') {
@@ -46,8 +46,8 @@ pipeline {
 				docker 'openjdk:8u151-jre'
 		}
 		steps {
-			sh "wget http://192.168.1.247/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar "
-			sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+			sh "wget http://192.168.1.247/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar "
+			sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
 				}}
 
 
@@ -60,7 +60,7 @@ pipeline {
 		}
 		steps {
 
-			sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
+			sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
 			}
 
 
