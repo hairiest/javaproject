@@ -1,7 +1,5 @@
 pipeline {
 	agent  none
-
-
 	environment {
 
 		MAJOR_VERSION = 1
@@ -27,25 +25,21 @@ pipeline {
                success {
                         archiveArtifacts artifacts: 'dist/*.jar' , fingerprint: true
  }
-        }
-}
-
+        } }
 		stage('Deploy') {
 			agent {
 				label 'apache' }
 			steps {
 			sh "mkdir -p /var/www/html/rectangles/all/${env.BRANCH_NAME}"
 			sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}"
-}
-}
+				} }
 		stage('Running on Centos'){
 			agent {
 				label 'centos' }
 			steps {
 			sh "wget http://192.168.1.247/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar "
 			sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
-				}
-}
+				}}
 		stage('Test on Debian') {
 			
 			agent {
@@ -60,24 +54,19 @@ pipeline {
 		stage('Promote to Green'){
 			agent {
 			label 'apache'
-}
+				}
 		when {
 			branch 'master'
 		}
 		steps {
 
-			sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
-			}
-
-}
+sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+			} }
 		stage('Promote development to master') {
-
 			agent {
-
 				label 'apache' }
 			when {
 				branch 'development' }
-
 			steps {
 			echo "stashing any local changes"
 			sh "git stash"
@@ -96,23 +85,18 @@ pipeline {
 			echo "Push tag to origin"
 			sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
 }
-			
 		post {
- 
                        success {
                                 emailext (
                                         subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted top Master!",
                                         body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted top Master!:</p>
                                                  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
                                         to: "brandon@linuxacademy.com"
-                                        
                                         )
                                 }
-
                         }
-	
-}	}	post {
-		
+}				}	
+			post {
 			failure { 
 				emailext (
 					subject: " ${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
@@ -122,7 +106,5 @@ pipeline {
 
 					)
 				} 
-	
 			}
 }
-
