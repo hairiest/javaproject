@@ -91,7 +91,7 @@ sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VER
                                         subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted top Master!",
                                         body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted top Master!:</p>
                                                  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                                        to: "brandon@linuxacademy.com"
+                                        to: "hairyperri@gmail.com"
                                         )
                                 }
                         }
@@ -102,7 +102,7 @@ sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VER
 					subject: " ${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
 					body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed!:</p>
        						 <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-        				to: "brandon@linuxacademy.com"
+        				to: "hairyperri@gmail.com"
 
 					)
 				} 
