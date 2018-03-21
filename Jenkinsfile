@@ -69,7 +69,6 @@ pipeline {
 			sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
 			}
 
-
 }
 		stage('Promote development to master') {
 
@@ -96,9 +95,35 @@ pipeline {
 			sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
 			echo "Push tag to origin"
 			sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+}
 			
+		post {
+ 
+                       success {
+                                emailext (
+                                        subject: " ${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted top Master!"
+                                        body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted top Master!":</p>
+                                                 <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+                                        to: "brandon@linuxacademy.com"
+                                        
+                                        )
+                                }
 
-}			
-}			
+                        }
+	
+}		post {
+		
+			failure { 
+				emailext (
+					subject: " ${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!"
+					body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed!":</p>
+       						 <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+        				to: "brandon@linuxacademy.com"
+
+					)
+				} 
+	
+			}
 }
 }
+
