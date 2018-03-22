@@ -20,7 +20,7 @@ pipeline {
                 stage ('GIt_INformation'){
                         agent any
                         steps {
-			echo "My Branch nam: £{env.BRANCH_NAME}"
+			echo "My Branch nam: ${env.BRANCH_NAME}"
 			script {
 			
 				def myLIb = new linuxacademy.git.gitStuff();
