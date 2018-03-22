@@ -6,6 +6,16 @@ pipeline {
 
 		}	
 	stages {
+		stage('sayHello'){
+			agent any
+			steps {
+		sayHello "Awesome Student"
+
+
+}
+
+}
+
 		stage('UNit Test') {
 			agent {
 
