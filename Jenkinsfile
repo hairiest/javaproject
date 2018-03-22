@@ -16,6 +16,24 @@ pipeline {
 
 }
 
+
+                stage ('GIt_INformation'){
+                        agent any
+                        steps {
+			echo "My Branch nam: £{env.BRANCH_NAME}"
+			script {
+			
+				def myLIb = new linuxacademy.git.gitStuff();
+			echo "MY Commit: ${myLib.gitCommit("${env.WORKSPACE}/.git")}"
+
+}
+}
+
+}
+
+
+
+
 		stage('UNit Test') {
 			agent {
 
